@@ -41,18 +41,12 @@ public class StepDefination extends Base {
         ws = sg.LoginPage();
     }
 
-    @Then("^enters to WSRs application and Body WSRs$")
-    public void enters_to_wsrs_application_and_body_wsrs() {
-        Utilities.jsClick(ws.tab("Body WSRs"));
-        Utilities.waitURL("Recent", 7);
-    }
+//    @Then("^enters to WSRs application and Body WSRs$")
+//    public void enters_to_wsrs_application_and_body_wsrs() {
+//        Utilities.jsClick(ws.tab("Body WSRs"));
+//        Utilities.waitURL("Recent", 7);
+//    }
 
-    @And("^clicks on New$")
-    public void clicks_on_new() {
-        ws.New().click();
-//		Utilities.waitWebElement((ws.titleWindow("New Header")), 10);
-
-    }
 
     @Then("^checks the title and subtitles$")
     public void checks_the_title_and_subtitles() throws IOException {
@@ -97,8 +91,8 @@ public class StepDefination extends Base {
         }
     }
 
-    @And("^checking Stories Information fields with cero and negative values$")
-    public void checking_stories_information_fields_with_cero_and_negative_values()
+    @And("^checking Stories Information fields with zero and negative values$")
+    public void checking_stories_information_fields_with_zero_and_negative_values()
             throws InterruptedException, IOException {
         // -------- checking "Stories Information" fields with "0"
         MultiValuedMap<String, String> data = Utilities.MapData(path, "WSRbody");
@@ -218,4 +212,19 @@ public class StepDefination extends Base {
             ws.saveAndAssert();
         }
     }
+
+    @Then("enters to WSRs application and {string}")
+    public void entersToWSRsApplicationAnd(String arg0) {
+        Utilities.jsClick(ws.tab(arg0));
+        Utilities.waitURL("Recent", 7);
+
+    }
+
+    @And("clicks on New and waits for the {string}")
+    public void clicksOnNewAndWaitsForThe(String arg0) {
+        ws.New().click();
+		Utilities.waitWebElement((ws.titleWindow(arg0)), 10);
+    }
+
+
 }

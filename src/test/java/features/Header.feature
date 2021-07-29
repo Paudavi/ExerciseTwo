@@ -24,7 +24,7 @@ Feature: WSR builder application
     Given initilize browser with chrome and going to Salesforce
     When user enters with username and password
     Then enters to WSRs application and Header
-    And clicks on New
+    And clicks on New and waits for the "New Header"
 
   @Story01_Test1
   Scenario: Checking if the required fields are present under their correspondent titles in the New Header window. Assuring that the input fields are according to the expected.
