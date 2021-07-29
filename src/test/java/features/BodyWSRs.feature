@@ -23,8 +23,8 @@ Feature: WSR builder application
   Background: Entering Salesforce with valid user
   Given initilize browser with chrome and going to Salesforce
   When user enters with username and password
-	Then enters to WSRs application and Body WSRs
-	And clicks on New
+	Then enters to WSRs application and "Body WSRs"
+	And clicks on New and waits for the "New Body WSR"
 	
 	@Story03_Test1
 	Scenario: Checking if the required fields are present under their correspondent titles in the new WSRs body Check that the fields only accept the correct input.
@@ -40,7 +40,7 @@ Feature: WSR builder application
 	@Story04_Test1
 	Scenario: Creating a new WSRs body checking that it only accepts the correct and necessary input
 	Then fills all the fields with valid data, save and edit
-	And checking Stories Information fields with cero and negative values
+	And checking Stories Information fields with zero and negative values
 	
 	@Story04_Test2
 	Scenario: Creating an new WSRs body and checking that it only accepts valid input

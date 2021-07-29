@@ -96,6 +96,7 @@ public class WSRbuilder_body extends Shared_elements {
         } catch (Exception e) {
             e.printStackTrace();
             log.info("Error message is expected but not found.");
+            Assert.fail("Error message is expected but not found");
         }
     }
 

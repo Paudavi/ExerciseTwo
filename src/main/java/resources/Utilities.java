@@ -13,20 +13,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
+import java.util.*;
 
 
 public final class Utilities extends Base {
-	//private static WebDriver driver;
-  // private static JavascriptExecutor executor;
     
 	public Utilities(WebDriver driver) {
 		Utilities.driver = driver;
-      //  Utilities.executor = (JavascriptExecutor) driver;
 	}
 	public static WebElement waitWebElement(WebElement a, int num) {
 		WebDriverWait w= new WebDriverWait(driver,num);
@@ -169,7 +162,7 @@ public final class Utilities extends Base {
         }
         return monthString;
 	}
-	
+
 	public static List<String> loadPorpertiesList(String name) {
 		String values = prop.get(name).toString();
 		String[] listValues = values.split(",");

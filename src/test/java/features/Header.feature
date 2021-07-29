@@ -24,7 +24,7 @@ Feature: WSR builder application
     Given initilize browser with chrome and going to Salesforce
     When user enters with username and password
     Then enters to WSRs application and Header
-    And clicks on New
+    And clicks on New and waits for the "New Header"
 
   @Story01_Test1
   Scenario: Checking if the required fields are present under their correspondent titles in the New Header window. Assuring that the input fields are according to the expected.
@@ -33,4 +33,15 @@ Feature: WSR builder application
     And saving and checking if the information is present
     Then edit the new header, and check the email input
     And clear all the obligatorily fields and save. Then leave every field empty and save.
+
+    @Story02_Test1
+    Scenario: Creating Header record and trying to create an identical one expecting an error.
+      And filling with data the new header
+      Then saving and checking if the information is present
+      And creating a new header using the same input
+      But saving expecting an error
+
+
+
+
 

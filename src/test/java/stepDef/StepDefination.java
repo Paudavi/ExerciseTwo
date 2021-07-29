@@ -1,13 +1,11 @@
 package stepDef;
 
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import io.cucumber.java.en.*;
 import io.cucumber.junit.Cucumber;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterMethod;
 import pageObjects.WSRbuilder_body;
 import pageObjects.WSRbuilder_header;
 import pageObjects.signInPage;
@@ -26,33 +24,30 @@ public class StepDefination extends Base {
     private WSRbuilder_body ws;
     public WebDriver driver;
     private WSRbuilder_header hr;
-    private List<String> listWSR = Utilities.loadPorpertiesList("listWSR");
-    private List<String> listInfo = Utilities.loadPorpertiesList("listInfo");
-    private List<String> newList = Stream.concat(listInfo.stream(), listWSR.stream()).collect(Collectors.toList());
+    public static List<String> listWSR;
+    public static List<String> listInfo;
+    public static List<String> newList;
+    public static HashMap<String, String> data1;
+    public static List<String> obligatoryFields;
 
     @Given("^initilize browser with chrome and going to Salesforce$")
     public void initilize_browser_with_chrome_and_going_to_salesforce() throws IOException {
         driver = initializeDriver();
+        listWSR = Utilities.loadPorpertiesList("listWSR");
+        listInfo = Utilities.loadPorpertiesList("listInfo");
+        newList = Stream.concat(listInfo.stream(), listWSR.stream()).collect(Collectors.toList());
+        data1 = Utilities.hashData(path, "NewHeader", 0);
+        obligatoryFields = newList.stream().filter(x -> !x.contains("User")).collect(Collectors.toList());
+
     }
 
     @When("^user enters with username and password$")
     public void user_enters_with_username_and_password() throws IOException {
         signInPage sg = new signInPage(driver);
         ws = sg.LoginPage();
+        hr = new WSRbuilder_header(driver);
     }
 
-    @Then("^enters to WSRs application and Body WSRs$")
-    public void enters_to_wsrs_application_and_body_wsrs() {
-        Utilities.jsClick(ws.tab("Body WSRs"));
-        Utilities.waitURL("Recent", 7);
-    }
-
-    @And("^clicks on New$")
-    public void clicks_on_new() {
-        ws.New().click();
-//		Utilities.waitWebElement((ws.titleWindow("New Header")), 10);
-
-    }
 
     @Then("^checks the title and subtitles$")
     public void checks_the_title_and_subtitles() throws IOException {
@@ -97,8 +92,8 @@ public class StepDefination extends Base {
         }
     }
 
-    @And("^checking Stories Information fields with cero and negative values$")
-    public void checking_stories_information_fields_with_cero_and_negative_values()
+    @And("^checking Stories Information fields with zero and negative values$")
+    public void checking_stories_information_fields_with_zero_and_negative_values()
             throws InterruptedException, IOException {
         // -------- checking "Stories Information" fields with "0"
         MultiValuedMap<String, String> data = Utilities.MapData(path, "WSRbody");
@@ -167,9 +162,6 @@ public class StepDefination extends Base {
 
     @And("assert the titles and subtitles in the New Header")
     public void assertTheTitlesAndSubtitlesInTheNewHeader() {
-        hr = new WSRbuilder_header(driver);
-        List<String> listInfo = Utilities.loadPorpertiesList("listInfo");
-        List<String> listWSR = Utilities.loadPorpertiesList("listWSR");
         // -----------------asserting the titles in the New Header
         hr.assertingTitles(listInfo, "Information");
         hr.assertingTitles(listWSR, "WSR Static Info");
@@ -177,8 +169,6 @@ public class StepDefination extends Base {
 
     @Then("filling with data the new header")
     public void fillingWithDataTheNewHeader() throws IOException {
-        // -----------------loading the data for each field
-        HashMap<String, String> data1 = Utilities.hashData(path, "NewHeader", 0);
         /* ----------filling the fields with the data required */
         for (int i = 0; i < newList.size(); i++) {
             String value = newList.get(i);
@@ -189,7 +179,6 @@ public class StepDefination extends Base {
     @And("saving and checking if the information is present")
     public void savingAndCheckingIfTheInformationIsPresent() throws IOException {
         // -------------- saving and checking if the information is present
-        HashMap<String, String> data1 = Utilities.hashData(path, "NewHeader", 0);
         ws.save().click();
         ws.assertSuccess();
         for (String i : newList) {
@@ -206,8 +195,6 @@ public class StepDefination extends Base {
     @And("clear all the obligatorily fields and save. Then leave every field empty and save.")
     public void clearAllTheObligatorilyFieldsAndSaveThenLeaveEveryFieldEmptyAndSave() throws IOException, InterruptedException {
         // ----- clearing obligatory fields
-        HashMap<String, String> data1 = Utilities.hashData(path, "NewHeader", 0);
-        List<String> obligatoryFields = newList.stream().filter(x -> !x.contains("User")).collect(Collectors.toList());
         for (String i : obligatoryFields) {
             hr.clearingObligatoryFields(i, data1);
 
@@ -217,5 +204,42 @@ public class StepDefination extends Base {
             hr.clearingNewHeader(i);
             ws.saveAndAssert();
         }
+    }
+
+    @Then("enters to WSRs application and {string}")
+    public void entersToWSRsApplicationAnd(String arg0) {
+        Utilities.jsClick(ws.tab(arg0));
+        Utilities.waitURL("Recent", 7);
+
+    }
+
+    @And("clicks on New and waits for the {string}")
+    public void clicksOnNewAndWaitsForThe(String arg0) {
+        ws.New().click();
+        Utilities.waitWebElement((ws.titleWindow(arg0)), 10);
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        driver.quit();
+    }
+
+    @And("creating a new header using the same input")
+    public void creatingANewHeaderUsingTheSameInput() {
+        Utilities.jsClick(ws.tab("Headers"));
+        Utilities.waitURL("Recent", 7);
+        ws.New().click();
+        Utilities.waitWebElement(ws.titleWindow("New Header"), 10);
+        // --------using the same input
+        for (int i = 0; i < newList.size(); i++) {
+            String value = newList.get(i);
+            hr.fillingNewHeader(newList.get(i), data1.get(value));
+        }
+    }
+
+    @But("saving expecting an error")
+    public void savingExpectingAnError() {
+        ws.saveAndAssert();
+
     }
 }

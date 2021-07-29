@@ -21,11 +21,12 @@ public class Headers_Test extends Base {
     private WebDriver driver;
     private WSRbuilder_body ws;
     private WSRbuilder_header hr;
-    // private static JavascriptExecutor executor;
+
 
     @BeforeMethod
     public void initalize() throws IOException {
         driver = initializeDriver();
+        hr = new WSRbuilder_header(driver);
         // ---------enter WSR builder
         signInPage sg = new signInPage(driver);
         ws = sg.LoginPage();
@@ -34,12 +35,12 @@ public class Headers_Test extends Base {
         // creating new Header
         ws.New().click();
         Utilities.waitWebElement(ws.titleWindow("New Header"), 10);
+
     }
 
     @Test(enabled = true, description = "Checking if the required fields are present under their "
             + "correspondent titles in the New Header window. Assuring that the input fields are according to the expected.")
     public void Story01_Test1() throws IOException, InterruptedException {
-        hr = new WSRbuilder_header(driver);
         List<String> listInfo = Utilities.loadPorpertiesList("listInfo");
         List<String> listWSR = Utilities.loadPorpertiesList("listWSR");
         // -----------------asserting the titles in the New Header
@@ -79,7 +80,7 @@ public class Headers_Test extends Base {
 
     }
 
-    @Test(enabled = false, description = "Creating Header record and trying to create an identical one expecting an error.")
+    @Test(enabled = true, description = "Creating Header record and trying to create an identical one expecting an error.")
     public void Story02_Test1() throws IOException, InterruptedException {
         // -----------------loading the data for each field
         List<String> newList = Utilities.getDataHeader(path, "NewHeader");

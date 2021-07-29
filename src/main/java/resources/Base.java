@@ -1,19 +1,17 @@
 package resources;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.JavascriptExecutor;
-//import org.apache.logging.log4j.core.util.FileUtils;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 public class Base {
 
@@ -62,6 +60,12 @@ public class Base {
 		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
 	}
 
-	
-	
+//		public static List<String> loadPorpertiesList(String name) {
+//		String values = prop.get(name).toString();
+//		String[] listValues = values.split(",");
+//		List<String> list = Arrays.asList(listValues);
+//		return list;
+//
+//	}
+//
 }
