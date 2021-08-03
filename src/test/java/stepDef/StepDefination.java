@@ -48,15 +48,8 @@ public class StepDefination extends Base {
         hr = new WSRbuilder_header(driver);
     }
 
-<<<<<<< HEAD
-=======
-//    @Then("^enters to WSRs application and Body WSRs$")
-//    public void enters_to_wsrs_application_and_body_wsrs() {
-//        Utilities.jsClick(ws.tab("Body WSRs"));
-//        Utilities.waitURL("Recent", 7);
-//    }
 
->>>>>>> 84fe61ee744d64c8ae2b89500ab738dd03f1c8fe
+
 
     @Then("^checks the title and subtitles$")
     public void checks_the_title_and_subtitles() throws IOException {
@@ -225,7 +218,6 @@ public class StepDefination extends Base {
     @And("clicks on New and waits for the {string}")
     public void clicksOnNewAndWaitsForThe(String arg0) {
         ws.New().click();
-<<<<<<< HEAD
         Utilities.waitWebElement((ws.titleWindow(arg0)), 10);
     }
 
@@ -250,12 +242,7 @@ public class StepDefination extends Base {
     @But("saving expecting an error")
     public void savingExpectingAnError() {
         ws.saveAndAssert();
-
-    }
-=======
-		Utilities.waitWebElement((ws.titleWindow(arg0)), 10);
     }
 
 
->>>>>>> 84fe61ee744d64c8ae2b89500ab738dd03f1c8fe
 }
